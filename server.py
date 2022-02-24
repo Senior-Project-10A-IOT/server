@@ -1,7 +1,10 @@
 import asyncio
 import websockets
 
-# test comment
+ip = '0.0.0.0'
+port = 8765
+
+print(f'now running server at {ip}:{port}')
 
 async def server(ws, path):
     print(f'connected to {path} from {ws.remote_address}')
@@ -20,7 +23,7 @@ async def server(ws, path):
             print(f'{ws.remote_address} disconnected')
             break
 
-start_server = websockets.serve(server, '0.0.0.0', 8765)
+start_server = websockets.serve(server, ip, port)
 asyncio.get_event_loop().run_until_complete(start_server)
 asyncio.get_event_loop().run_forever()
 
