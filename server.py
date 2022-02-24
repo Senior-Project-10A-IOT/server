@@ -10,7 +10,7 @@ async def server(ws, path):
             name = await ws.recv()
             print(f'recv {name}')
 
-            greeting = f'hello, {name} {i}'
+            greeting = f'hello {name} {i}'
             i += 1
             await ws.send(greeting)
             print(f'send {greeting}')
