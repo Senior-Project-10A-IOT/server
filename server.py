@@ -21,7 +21,8 @@ async def handle_socket_connection(websocket, path):
         pass
     finally:
         print(f'Disconnected from socket [{id(websocket)}]...')
-        websocket_clients.remove(websocket)
+        websocket_clients[path] = None
+        #websocket_clients.remove(websocket)
 
 async def broadcast_random_number(loop):
     """Keeps sending a random # to each connected websocket client"""
