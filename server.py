@@ -16,6 +16,7 @@ async def handle_socket_connection(websocket, path):
         # This loop will keep listening on the socket until its closed. 
         async for raw_message in websocket:
             if path == '/raspi' and websocket_clients['/phone'] != None:
+                print(type(websocket_clients['/phone']))
                 await websocket_clients['/phone'].send("wow!!!!" + raw_message)
     except websockets.exceptions.ConnectionClosedError as cce:
         pass
