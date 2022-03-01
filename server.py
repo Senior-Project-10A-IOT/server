@@ -6,16 +6,17 @@ import random
 ip = '0.0.0.0'
 port = 8765
 
-websocket_clients = set()
+websocket_clients = dict()
 
 async def handle_socket_connection(websocket, path):
     """Handles the whole lifecycle of each client's websocket connection."""
-    websocket_clients.add(websocket)
+    websocket_clients[path] = websocket
     print(f'New connection from: {websocket.remote_address} ({len(websocket_clients)} total) (path {path})')
     try:
         # This loop will keep listening on the socket until its closed. 
         async for raw_message in websocket:
-            print(f'Got: [{raw_message}] from socket [{id(websocket)}]')
+            if path == '/raspi' and websocket_clients['/phone'] != None:
+                await websocket_clients['/phone'].send("wow!!!!" + raw_message)
     except websockets.exceptions.ConnectionClosedError as cce:
         pass
     finally:
