@@ -11,7 +11,7 @@ websocket_clients = set()
 async def handle_socket_connection(websocket, path):
     """Handles the whole lifecycle of each client's websocket connection."""
     websocket_clients.add(websocket)
-    print(f'New connection from: {websocket.remote_address} ({len(websocket_clients)} total)')
+    print(f'New connection from: {websocket.remote_address} ({len(websocket_clients)} total) (path {path})')
     try:
         # This loop will keep listening on the socket until its closed. 
         async for raw_message in websocket:
