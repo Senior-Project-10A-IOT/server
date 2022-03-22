@@ -9,7 +9,8 @@ PI_PATH = '/raspi'
 phone_socket = None
 
 async def handle_socket_connection(websocket, path):
-    print(f'New connection from: {websocket.remote_address} ({len(websocket_clients)} total) (path {path})')
+    global phone_socket
+    print(f'New connection from: {websocket.remote_address} (path {path})')
 
     if path == PHONE_PATH:
         phone_socket = websocket
@@ -20,8 +21,7 @@ async def handle_socket_connection(websocket, path):
                 if type(raw_message) == str:
                     await phone_socket.send("from server: " + raw_message)
                 elif type(raw_message) == bytes:
-                    # TODO
-                    pass
+                    await phone_socket.send(raw_message)
 
     except websockets.exceptions.ConnectionClosedError as cce:
         pass
