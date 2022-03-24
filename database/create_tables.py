@@ -6,16 +6,17 @@ con = sqlite3.connect(f'{DATABASE_NAME}')
 cur = con.cursor()
 
 # Create table
-cur.execute(f"""
+cur.execute("""
     CREATE TABLE sensor_detection
     (id INTEGER PRIMARY KEY,
     timestamp datetime NOT NULL)
     """)
 
-cur.execute(f"""
+cur.execute("""
     CREATE TABLE photos
-    (motion_id INTEGER NOT NULL,
-    photo BLOB NOT NULL)
+    (detection_id INTEGER NOT NULL,
+    photo BLOB
+    FOREIGN KEY(detection_id) REFERENCES sensor_detection(id))
     """)
 
 # Save (commit) the changes
