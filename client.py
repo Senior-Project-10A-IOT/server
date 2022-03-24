@@ -1,8 +1,8 @@
 import asyncio
 import websockets
 
-#url = 'ws://gang-and-friends.com:8765/raspi'
-url = 'ws://localhost:8765/raspi'
+url = 'ws://gang-and-friends.com:8765/raspi'
+#url = 'ws://localhost:8765/raspi'
 
 async def hello():
     async with websockets.connect(url) as ws:
