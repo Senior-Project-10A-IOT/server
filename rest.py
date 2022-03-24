@@ -43,6 +43,9 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 import argparse
 from http.server import HTTPServer, BaseHTTPRequestHandler
+import sqlite3
+
+DATABASE_NAME = 'project10a.db'
 
 
 class S(BaseHTTPRequestHandler):
@@ -61,6 +64,29 @@ class S(BaseHTTPRequestHandler):
 
     def do_GET(self):
         self._set_headers()
+        # connect to database
+        con = sqlite3.connect(f'{DATABASE_NAME}')
+        cur = con.cursor()
+
+        # get last 5 events
+        cur.execute("""
+                SELECT timestamp
+                FROM sensor_detection
+                JOIN photos ON photos.detection_id = sensor_detection.id
+                LIMIT 5;
+                """)
+        results = cur.fetchall()
+
+        # close database connection
+        con.commit()
+        con.close()
+
+        json_format = []
+        # convert result to json
+        for row in results:
+            
+
+        # send the result
         self.wfile.write(self._html("hi!"))
 
     def do_HEAD(self):
