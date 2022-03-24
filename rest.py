@@ -44,6 +44,7 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import argparse
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import sqlite3
+import json
 
 DATABASE_NAME = 'project10a.db'
 
@@ -70,7 +71,7 @@ class S(BaseHTTPRequestHandler):
 
         # get last 5 events
         cur.execute("""
-                SELECT timestamp
+                SELECT timestamp, photo
                 FROM sensor_detection
                 JOIN photos ON photos.detection_id = sensor_detection.id
                 LIMIT 5;
@@ -81,13 +82,17 @@ class S(BaseHTTPRequestHandler):
         con.commit()
         con.close()
 
-        json_format = []
         # convert result to json
+        json_format = []
         for row in results:
-            
+            newrow = {
+                'timestamp': row[0],
+                'photo': row[1]}
+            json_format.append(newrow)
+        json_ = json.dumps(json_format, indent=2)
 
         # send the result
-        self.wfile.write(self._html("hi!"))
+        self.wfile.write(json_)
 
     def do_HEAD(self):
         self._set_headers()
