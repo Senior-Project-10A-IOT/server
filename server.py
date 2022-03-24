@@ -17,13 +17,10 @@ async def handle_socket_connection(websocket, path):
 
     try:
         async for raw_message in websocket:
-            print('recv', phone_socket, path)
             if phone_socket != None and path == PI_PATH:
                 if type(raw_message) == str:
-                    print('yes')
                     await phone_socket.send("from server: " + raw_message)
                 elif type(raw_message) == bytes:
-                    print('no')
                     await phone_socket.send(raw_message)
 
     except websockets.exceptions.ConnectionClosedError as cce:
