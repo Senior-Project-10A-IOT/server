@@ -12,7 +12,7 @@ insert_items = [
 ]
 
 # insert dummy data
-cur.execute("""
+cur.executemany("""
     INSERT INTO sensor_detection (timestamp)
     VALUES(?);
     """, insert_items)
