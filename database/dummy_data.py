@@ -7,8 +7,8 @@ con = sqlite3.connect(f'{DATABASE_NAME}')
 cur = con.cursor()
 
 insert_items = [
-    (f'{datetime.utcnow().isoformat()}'),
-    (f'{datetime.utcnow().isoformat()}')
+    (f'{datetime.utcnow().isoformat()}',),
+    (f'{datetime.utcnow().isoformat()}',)
 ]
 
 # insert dummy data
