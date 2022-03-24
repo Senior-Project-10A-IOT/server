@@ -8,6 +8,7 @@ cur = con.cursor()
 
 insert_items = [
     (f'{datetime.utcnow().isoformat()}',),
+    (f'{datetime.utcnow().isoformat()}',),
     (f'{datetime.utcnow().isoformat()}',)
 ]
 
@@ -19,7 +20,7 @@ cur.executemany("""
 
 cur.execute("""
     INSERT INTO photos (detection_id)
-    VALUES (1), (2);
+    VALUES (3), (4), (5);
     """)
 
 # Save (commit) the changes
