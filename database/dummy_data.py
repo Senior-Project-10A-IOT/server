@@ -6,11 +6,16 @@ DATABASE_NAME = 'project10a.db'
 con = sqlite3.connect(f'{DATABASE_NAME}')
 cur = con.cursor()
 
+insert_items = [
+    (f'{datetime.utcnow().isoformat()}'),
+    (f'{datetime.utcnow().isoformat()}')
+]
+
 # insert dummy data
-cur.execute(f"""
+cur.execute("""
     INSERT INTO sensor_detection (timestamp)
-    VALUES({datetime.utcnow().isoformat()}), ({datetime.utcnow().isoformat()});
-    """)
+    VALUES(?, ?);
+    """, insert_items)
 
 cur.execute("""
     INSERT INTO photos (detection_id)
