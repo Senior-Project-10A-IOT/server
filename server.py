@@ -17,7 +17,7 @@ async def handle_socket_connection(websocket, path):
 
     try:
         async for raw_message in websocket:
-            print('recv')
+            print('recv', phone_socket, path)
             if phone_socket != None and path == PI_PATH:
                 if type(raw_message) == str:
                     print('yes')
