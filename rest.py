@@ -92,7 +92,7 @@ class S(BaseHTTPRequestHandler):
         json_ = json.dumps(json_format, indent=2)
 
         # send the result
-        self.wfile.write(json_)
+        self.wfile.write(json_.encode('utf8'))
 
     def do_HEAD(self):
         self._set_headers()
