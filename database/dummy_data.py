@@ -14,7 +14,7 @@ insert_items = [
 # insert dummy data
 cur.execute("""
     INSERT INTO sensor_detection (timestamp)
-    VALUES(?, ?);
+    VALUES(?);
     """, insert_items)
 
 cur.execute("""
