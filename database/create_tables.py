@@ -15,7 +15,7 @@ cur.execute("""
 cur.execute("""
     CREATE TABLE photos
     (detection_id INTEGER NOT NULL,
-    photo BLOB
+    photo BLOB,
     FOREIGN KEY(detection_id) REFERENCES sensor_detection(id))
     """)
 
