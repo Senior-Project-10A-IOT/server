@@ -46,7 +46,7 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 import sqlite3
 import json
 
-DATABASE_NAME = 'project10a.db'
+DATABASE_NAME = 'database/project10a.db'
 
 
 class S(BaseHTTPRequestHandler):
