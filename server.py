@@ -27,7 +27,7 @@ async def handle_socket_connection(websocket, path):
         pass
 
     finally:
-        print(f'Disconnected from socket [{id(websocket)}]...')
+        print(f'Disconnected from socket {path}...')
         if path == PHONE_PATH:
             phone_socket = None
 
