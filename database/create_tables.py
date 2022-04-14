@@ -5,18 +5,11 @@ DATABASE_NAME = 'project10a.db'
 con = sqlite3.connect(f'{DATABASE_NAME}')
 cur = con.cursor()
 
-# Create table
 cur.execute("""
-    CREATE TABLE sensor_detection
+    CREATE TABLE past_events
     (id INTEGER PRIMARY KEY,
-    timestamp datetime NOT NULL)
-    """)
-
-cur.execute("""
-    CREATE TABLE photos
-    (detection_id INTEGER NOT NULL,
-    photo BLOB,
-    FOREIGN KEY(detection_id) REFERENCES sensor_detection(id))
+    timestamp datetime NOT NULL,
+    photo BLOB)
     """)
 
 # Save (commit) the changes
