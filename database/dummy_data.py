@@ -1,31 +1,18 @@
 import sqlite3
 from datetime import datetime
 
-DATABASE_NAME = 'project10a.db'
+conn = sqlite3.connect('project10a.db')
+cursor = conn.cursor()
 
-con = sqlite3.connect(f'{DATABASE_NAME}')
-cur = con.cursor()
+with open("motion.jpg", "rb") as input_file:
+    ablob = input_file.read()
+    cursor.execute("INSERT INTO past_events (timestamp, file) VALUES(?, ?)", [(f'{datetime.utcnow().isoformat()}', sqlite3.Binary(ablob),)])
+    conn.commit()
 
-insert_items = [
-    (f'{datetime.utcnow().isoformat()}',),
-    (f'{datetime.utcnow().isoformat()}',),
-    (f'{datetime.utcnow().isoformat()}',)
-]
+# with open("Output.bin", "wb") as output_file:
+#     cursor.execute("SELECT file FROM past_events WHERE id = 0")
+#     ablob = cursor.fetchone()
+#     output_file.write(ablob[0])
 
-# insert dummy data
-cur.executemany("""
-    INSERT INTO sensor_detection (timestamp)
-    VALUES(?);
-    """, insert_items)
-
-cur.execute("""
-    INSERT INTO photos (detection_id)
-    VALUES (3), (4), (5);
-    """)
-
-# Save (commit) the changes
-con.commit()
-
-# We can also close the connection if we are done with it.
-# Just be sure any changes have been committed or they will be lost.
-con.close()
+cursor.close()
+conn.close()
