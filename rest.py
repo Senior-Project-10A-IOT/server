@@ -72,8 +72,8 @@ class S(BaseHTTPRequestHandler):
         # get last 5 events
         cur.execute("""
                 SELECT timestamp, photo
-                FROM sensor_detection
-                JOIN photos ON photos.detection_id = sensor_detection.id
+                FROM past_events
+                ORDER BY timestamp desc
                 LIMIT 5;
                 """)
         results = cur.fetchall()
@@ -87,7 +87,7 @@ class S(BaseHTTPRequestHandler):
         for row in results:
             newrow = {
                 'timestamp': row[0],
-                'photo': row[1]}
+                'photo': row[1].encode('base64')}
             json_format.append(newrow)
         json_ = json.dumps(json_format, indent=2)
 
