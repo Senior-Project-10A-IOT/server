@@ -69,31 +69,43 @@ class S(BaseHTTPRequestHandler):
         # connect to database
         con = sqlite3.connect(f'{DATABASE_NAME}')
         cur = con.cursor()
+        # if path is not empty
+        if self.path:
+            # get photo using id
+            cur.execute("""
+                    SELECT photo
+                    FROM past_events
+                    WHERE id = ?
+                    LIMIT 5;
+                    """, (self.path,))
+            result = cur.fetchone()
+            self.wfile.write(result[0])
+        # if the path is empty
+        else:
+            # get last 5 events
+            cur.execute("""
+                    SELECT id, timestamp
+                    FROM past_events
+                    ORDER BY timestamp desc
+                    LIMIT 5;
+                    """)
+            results = cur.fetchall()
 
-        # get last 5 events
-        cur.execute("""
-                SELECT timestamp, photo
-                FROM past_events
-                ORDER BY timestamp desc
-                LIMIT 5;
-                """)
-        results = cur.fetchall()
+            # close database connection
+            con.commit()
+            con.close()
 
-        # close database connection
-        con.commit()
-        con.close()
+            # convert result to json
+            json_format = []
+            for row in results:
+                newrow = {
+                    'id': row[0]
+                    'timestamp': row[1]}
+                json_format.append(newrow)
+            json_ = json.dumps(json_format, indent=2)
 
-        # convert result to json
-        json_format = []
-        for row in results:
-            newrow = {
-                'timestamp': row[0],
-                'photo': base64.b64encode(row[1]).decode('ascii')}
-            json_format.append(newrow)
-        json_ = json.dumps(json_format, indent=2)
-
-        # send the result
-        self.wfile.write(json_.encode('utf8'))
+            # send the result
+            self.wfile.write(json_.encode('utf8'))
 
     def do_HEAD(self):
         self._set_headers()
