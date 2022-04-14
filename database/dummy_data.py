@@ -6,7 +6,7 @@ cursor = conn.cursor()
 
 with open("motion.jpg", "rb") as input_file:
     ablob = input_file.read()
-    cursor.execute("INSERT INTO past_events (timestamp, file) VALUES(?, ?)", [(f'{datetime.utcnow().isoformat()}', sqlite3.Binary(ablob),)])
+    cursor.execute("INSERT INTO past_events (timestamp, photo) VALUES(?, ?)", [(f'{datetime.utcnow().isoformat()}', sqlite3.Binary(ablob),)])
     conn.commit()
 
 # with open("Output.bin", "wb") as output_file:
