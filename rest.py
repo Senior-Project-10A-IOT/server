@@ -46,6 +46,7 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 import sqlite3
 import json
 import base64
+from datetime import datetime
 
 DATABASE_NAME = 'database/project10a.db'
 
@@ -75,11 +76,11 @@ class S(BaseHTTPRequestHandler):
         if self.path == '/':
             # get last 5 events
             cur.execute("""
-                    SELECT id, timestamp
-                    FROM past_events
-                    ORDER BY timestamp desc
-                    LIMIT 5;
-                    """)
+                SELECT id, timestamp
+                FROM past_events
+                ORDER BY timestamp desc
+                LIMIT 5;
+                """)
             results = cur.fetchall()
 
             # close database connection
@@ -103,20 +104,39 @@ class S(BaseHTTPRequestHandler):
             event_id = self.path.split('/')[1]
             # get photo using id
             cur.execute("""
-                    SELECT photo
-                    FROM past_events
-                    WHERE id = ?
-                    LIMIT 5;
-                    """, (event_id,))
+                SELECT photo
+                FROM past_events
+                WHERE id = ?
+                LIMIT 5;
+                """, (event_id,))
             result = cur.fetchone()
+
+            # close database connection
+            con.commit()
+            con.close()
             self.wfile.write(result[0])
 
     def do_HEAD(self):
         self._set_headers()
 
     def do_POST(self):
-        # Doesn't do anything with posted data
         self._set_headers()
+        # get post body
+        content_len = int(self.headers.getheader('content-length', 0))
+        post_body = self.rfile.read(content_len)
+
+        # insert post body into database
+        con = sqlite3.connect(f'{DATABASE_NAME}')
+        cur = con.cursor()
+        cur.execute("""
+            INSERT INTO past_events (timestamp, photo)
+            VALUES (?, ?);
+            """, (f'{datetime.utcnow().isoformat()}', post_body))
+
+        # close database connection
+        con.commit()
+        con.close()
+
         self.wfile.write(self._html("POST!"))
 
 
