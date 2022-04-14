@@ -34,9 +34,9 @@ async def handle_socket_connection(websocket, path):
         async for message in websocket:
             if phone_socket != None and pi_socket != None:
                 if path == PHONE_PATH:
-                    from_phone(message)
+                    await from_phone(message)
                 elif path == PI_PATH:
-                    from_pi(message)
+                    await from_pi(message)
             else:
                 print(f'dropped message from {path}')
     except websockets.exceptions.ConnectionClosedError as cce:
