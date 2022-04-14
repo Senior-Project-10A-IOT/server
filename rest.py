@@ -45,6 +45,7 @@ import argparse
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import sqlite3
 import json
+import base64
 
 DATABASE_NAME = 'database/project10a.db'
 
@@ -87,7 +88,7 @@ class S(BaseHTTPRequestHandler):
         for row in results:
             newrow = {
                 'timestamp': row[0],
-                'photo': row[1].encode('base64')}
+                'photo': base64.b64encode(row[1]).decode('ascii')}
             json_format.append(newrow)
         json_ = json.dumps(json_format, indent=2)
 
