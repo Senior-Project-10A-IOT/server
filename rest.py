@@ -99,7 +99,7 @@ class S(BaseHTTPRequestHandler):
             json_format = []
             for row in results:
                 newrow = {
-                    'id': row[0]
+                    'id': row[0],
                     'timestamp': row[1]}
                 json_format.append(newrow)
             json_ = json.dumps(json_format, indent=2)
