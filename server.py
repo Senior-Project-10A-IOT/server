@@ -13,12 +13,10 @@ pi_socket = None
 async def from_phone(message):
     global pi_socket
     print(f'message from phone: {message}')
-    pass
 
 async def from_pi(message):
     global phone_socket
     await phone_socket.send(f'from server: {message}')
-    pass
 
 async def handle_socket_connection(websocket, path):
     global phone_socket
