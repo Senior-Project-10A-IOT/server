@@ -65,24 +65,14 @@ class S(BaseHTTPRequestHandler):
         return content.encode("utf8")  # NOTE: must return a bytes object!
 
     def do_GET(self):
-        print(self.path)
+        print(f'path: {self.path}')
         self._set_headers()
         # connect to database
         con = sqlite3.connect(f'{DATABASE_NAME}')
         cur = con.cursor()
-        # if path is not empty
-        if self.path:
-            # get photo using id
-            cur.execute("""
-                    SELECT photo
-                    FROM past_events
-                    WHERE id = ?
-                    LIMIT 5;
-                    """, (self.path,))
-            result = cur.fetchone()
-            self.wfile.write(result[0])
-        # if the path is empty
-        else:
+
+        # if path is empty
+        if self.path == '/':
             # get last 5 events
             cur.execute("""
                     SELECT id, timestamp
@@ -107,6 +97,19 @@ class S(BaseHTTPRequestHandler):
 
             # send the result
             self.wfile.write(json_.encode('utf8'))
+
+        # if the path is not empty
+        else:
+            event_id = self.path.split('/')[1]
+            # get photo using id
+            cur.execute("""
+                    SELECT photo
+                    FROM past_events
+                    WHERE id = ?
+                    LIMIT 5;
+                    """, (event_id,))
+            result = cur.fetchone()
+            self.wfile.write(result[0])
 
     def do_HEAD(self):
         self._set_headers()
