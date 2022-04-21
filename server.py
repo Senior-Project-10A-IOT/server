@@ -34,12 +34,13 @@ async def handle_socket_connection(websocket, path):
         phone_socket = websocket
     if path == PI_PATH:
         pi_socket = websocket
-    if path == PI_PATH + '2':
+    if path == PI_PATH2:
         pi_socket2 = websocket
 
     try:
         async for message in websocket:
-            if phone_socket != None and pi_socket != None:
+            print('got message ' + message)
+            if phone_socket != None and pi_socket != None and pi_socket2 != None:
                 if path == PHONE_PATH:
                     await from_phone(message)
                 elif path == PI_PATH2:
