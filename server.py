@@ -42,6 +42,8 @@ async def handle_socket_connection(websocket, path):
             if phone_socket != None and pi_socket != None:
                 if path == PHONE_PATH:
                     await from_phone(message)
+                elif path == PI_PATH2:
+                    await from_pi(message)
                 elif path == PI_PATH:
                     await from_pi(message)
             else:
