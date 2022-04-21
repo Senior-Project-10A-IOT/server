@@ -41,6 +41,7 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.    
 
 """
+import pytz
 import argparse
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import sqlite3
@@ -123,6 +124,12 @@ class S(BaseHTTPRequestHandler):
 
     def do_POST(self):
         self._set_headers()
+        #get the timezone right
+        now = datetime.now()
+        tz = pytz.timezome('America/New_York')
+        now_tz = tz.localize(now)
+        tz_string = str(now_tz)
+
         # get post body
         content_length = int(self.headers['Content-Length']) # <--- Gets the size of data
         post_data = self.rfile.read(content_length) # <--- Gets the data itself
@@ -133,7 +140,7 @@ class S(BaseHTTPRequestHandler):
         cur.execute("""
             INSERT INTO past_events (timestamp, photo)
             VALUES (?, ?);
-            """, (self.path.split('/')[1], post_data))
+            """, (tz_string, post_data))
 
         # close database connection
         con.commit()
