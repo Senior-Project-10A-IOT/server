@@ -121,8 +121,8 @@ class S(BaseHTTPRequestHandler):
     def do_POST(self):
         self._set_headers()
         # get post body
-        content_len = int(self.headers.getheader('content-length', 0))
-        post_body = self.rfile.read(content_len)
+        content_length = int(self.headers['Content-Length']) # <--- Gets the size of data
+        post_data = self.rfile.read(content_length) # <--- Gets the data itself
 
         # insert post body into database
         con = sqlite3.connect(f'{DATABASE_NAME}')
@@ -130,7 +130,7 @@ class S(BaseHTTPRequestHandler):
         cur.execute("""
             INSERT INTO past_events (timestamp, photo)
             VALUES (?, ?);
-            """, (f'{datetime.utcnow().isoformat()}', post_body['file']))
+            """, (f'{datetime.utcnow().isoformat()}', post_data))
 
         # close database connection
         con.commit()
