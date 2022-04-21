@@ -66,7 +66,6 @@ class S(BaseHTTPRequestHandler):
         return content.encode("utf8")  # NOTE: must return a bytes object!
 
     def do_GET(self):
-        print(f'path: {self.path}')
         self._set_headers()
         # connect to database
         con = sqlite3.connect(f'{DATABASE_NAME}')
