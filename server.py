@@ -58,7 +58,7 @@ async def handle_socket_connection(websocket, path):
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
     try:
-        socket_server = websockets.serve(handle_socket_connection, IP, PORT, max_size=1048576*8)
+        socket_server = websockets.serve(handle_socket_connection, IP, PORT)
         print(f'Started socket server: {socket_server} ...')
         loop.run_until_complete(socket_server)
         loop.run_forever()
