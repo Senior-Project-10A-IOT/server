@@ -53,9 +53,7 @@ DATABASE_NAME = 'database/project10a.db'
 
 class S(BaseHTTPRequestHandler):
     def _set_headers(self):
-        self.send_response(200)
-        self.send_header("Content-type", "text/html")
-        self.end_headers()
+        pass
 
     def _html(self, message):
         """This just generates an HTML document that includes `message`
@@ -66,13 +64,16 @@ class S(BaseHTTPRequestHandler):
         return content.encode("utf8")  # NOTE: must return a bytes object!
 
     def do_GET(self):
-        self._set_headers()
+        self.send_response(200)
+
         # connect to database
         con = sqlite3.connect(f'{DATABASE_NAME}')
         cur = con.cursor()
 
         # if path is empty
         if self.path == '/':
+            self.send_header("Content-type", "text/json")
+            self.end_headers()
             # get last 5 events
             cur.execute("""
                 SELECT id, timestamp
@@ -100,6 +101,8 @@ class S(BaseHTTPRequestHandler):
 
         # if the path is not empty
         else:
+            self.send_header("Content-type", "image/jpg")
+            self.end_headers()
             event_id = self.path.split('/')[1]
             # get photo using id
             cur.execute("""
