@@ -33,14 +33,6 @@ async def handle_socket_connection(websocket, path):
 
     try:
         async for message in websocket:
-            # TODO send this message from the pi
-            if path == PHONE_PATH and message == 'arm':
-                print('replying with armed')
-                await phone_socket.send('armed')
-            if path == PHONE_PATH and message == 'disarm':
-                print('replying with disarmed')
-                await phone_socket.send('disarmed')
-
             if phone_socket != None and pi_socket != None:
                 if path == PHONE_PATH:
                     await from_phone(message)
