@@ -44,7 +44,7 @@ async def handle_socket_connection(websocket, path):
                     reason = 'phone not connected'
                 elif pi_socket == None:
                     reason = 'pi not connected'
-                print(f'dropped message from {path}, {reason}')
+                print(f'dropped message \'{message}\' from {path}, {reason}')
 
     except websockets.exceptions.ConnectionClosedError as cce:
         pass
