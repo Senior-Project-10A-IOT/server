@@ -6,15 +6,18 @@ IP = '0.0.0.0'
 PORT = 8765
 PHONE_PATH = '/phone'
 PI_PATH = '/raspi'
+PI_PATH2 = '/raspi2'
 
 phone_socket = None
 pi_socket = None
+pi_socket2 = None
 
 async def from_phone(message):
     global pi_socket
+    global pi_socket2
     print(f'message from phone: \'{message}\'')
 
-    await pi_socket.send(message)
+    await pi_socket2.send(message)
 
 async def from_pi(message):
     global phone_socket
@@ -24,12 +27,15 @@ async def from_pi(message):
 async def handle_socket_connection(websocket, path):
     global phone_socket
     global pi_socket
+    global pi_socket2
     print(f'New connection from: {websocket.remote_address} (path {path})')
 
     if path == PHONE_PATH:
         phone_socket = websocket
     if path == PI_PATH:
         pi_socket = websocket
+    if path == PI_PATH + '2':
+        pi_socket2 = websocket
 
     try:
         async for message in websocket:
