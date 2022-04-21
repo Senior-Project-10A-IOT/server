@@ -123,6 +123,7 @@ class S(BaseHTTPRequestHandler):
 
     def do_POST(self):
         self._set_headers()
+        print('post ' + self.path)
         # get post body
         content_length = int(self.headers['Content-Length']) # <--- Gets the size of data
         post_data = self.rfile.read(content_length) # <--- Gets the data itself
