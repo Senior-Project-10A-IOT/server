@@ -126,7 +126,7 @@ class S(BaseHTTPRequestHandler):
         # get post body
         content_length = int(self.headers['Content-Length']) # <--- Gets the size of data
         post_data = self.rfile.read(content_length) # <--- Gets the data itself
-        print('len=' + content_length + ' datalen=' + len(post_data))
+        print('len=' + str(content_length) + ' datalen=' + str(len(post_data)))
         print(self.headers)
 
         # insert post body into database
