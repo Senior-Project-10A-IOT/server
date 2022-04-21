@@ -12,11 +12,13 @@ pi_socket = None
 
 async def from_phone(message):
     global pi_socket
-    print(f'message from phone: {message}')
+    print(f'message from phone: \'{message}\'')
+    await pi_socket.send(message)
 
 async def from_pi(message):
     global phone_socket
-    await phone_socket.send(f'from server: {message}')
+    print(f'message from pi: \'{message}\'')
+    await phone_socket.send(message)
 
 async def handle_socket_connection(websocket, path):
     global phone_socket
@@ -36,9 +38,16 @@ async def handle_socket_connection(websocket, path):
                 elif path == PI_PATH:
                     await from_pi(message)
             else:
-                print(f'dropped message from {path}')
+                reason = 'idk why'
+                if phone_socket == None:
+                    reason = 'phone not connected'
+                elif pi_socket == None:
+                    reason = 'pi not connected'
+                print(f'dropped message from {path}, {reason}')
+
     except websockets.exceptions.ConnectionClosedError as cce:
         pass
+
     finally:
         print(f'Disconnected from socket {path}...')
         if path == PHONE_PATH:
