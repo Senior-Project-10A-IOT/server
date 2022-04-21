@@ -133,7 +133,7 @@ class S(BaseHTTPRequestHandler):
         cur.execute("""
             INSERT INTO past_events (timestamp, photo)
             VALUES (?, ?);
-            """, (f'{datetime.utcnow().isoformat()}', post_data))
+            """, (self.path, post_data))
 
         # close database connection
         con.commit()
