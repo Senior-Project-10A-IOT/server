@@ -126,7 +126,7 @@ class S(BaseHTTPRequestHandler):
         self._set_headers()
         #get the timezone right
         now = datetime.now()
-        tz = pytz.timezome('America/New_York')
+        tz = pytz.timezone('America/New_York')
         now_tz = tz.localize(now)
         tz_string = str(now_tz)
 
