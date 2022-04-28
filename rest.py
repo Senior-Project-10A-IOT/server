@@ -110,7 +110,7 @@ class S(BaseHTTPRequestHandler):
                 SELECT photo
                 FROM past_events
                 WHERE id = ?
-                LIMIT 5;
+                LIMIT 10;
                 """, (event_id,))
             result = cur.fetchone()
 
