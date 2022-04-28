@@ -80,7 +80,7 @@ class S(BaseHTTPRequestHandler):
                 SELECT id, timestamp
                 FROM past_events
                 ORDER BY timestamp desc
-                LIMIT 5;
+                LIMIT 10;
                 """)
             results = cur.fetchall()
 
@@ -110,7 +110,7 @@ class S(BaseHTTPRequestHandler):
                 SELECT photo
                 FROM past_events
                 WHERE id = ?
-                LIMIT 10;
+                LIMIT 5;
                 """, (event_id,))
             result = cur.fetchone()
 
